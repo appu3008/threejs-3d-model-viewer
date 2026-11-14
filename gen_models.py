@@ -128,6 +128,10 @@ def cylinder_mesh(radius, height, segments=24, axis="y"):
         rot = lambda p: (p[1], -p[0], p[2])
         positions = [rot(p) for p in positions]
         normals = [rot(n) for n in normals]
+    elif axis == "z":  # rotate y-axis cylinder onto the z axis: (x,y,z) -> (x,-z,y)
+        rot = lambda p: (p[0], -p[2], p[1])
+        positions = [rot(p) for p in positions]
+        normals = [rot(n) for n in normals]
     return positions, normals, indices
 
 
@@ -232,8 +236,8 @@ def build_car(path):
         b.sphere(0.08, (-2.26, 0.62, z * 1.083), "#ff3535", emissive="#ff2020")
     for x in (1.5, -1.5):
         for z in (0.98, -0.98):
-            b.cylinder(0.42, 0.3, (x, 0.42, z), "#1c1c1e", axis="x", roughness=0.9)
-            b.cylinder(0.22, 0.31, (x, 0.42, z), "#c8ccd2", axis="x", metallic=1.0, roughness=0.25)
+            b.cylinder(0.42, 0.3, (x, 0.42, z), "#1c1c1e", axis="z", roughness=0.9)
+            b.cylinder(0.22, 0.31, (x, 0.42, z), "#c8ccd2", axis="z", metallic=1.0, roughness=0.25)
     b.save(path)
 
 
